@@ -4,36 +4,201 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌌 Shooting Star AI Ecosystem — Architecture</title>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0b0c10;
+            background-color: #0b0c10; /* Dark background matching the image */
             color: #c5c6c7;
             margin: 0;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
         }
         .container {
-            max-width: 1200px;
+            max-width: 1000px; /* Adjust max-width as needed */
+            width: 100%;
             margin: auto;
+            text-align: center; /* Center text within the container */
         }
         header {
-            text-align: center;
             padding-bottom: 20px;
             border-bottom: 2px solid #66fcf1;
             margin-bottom: 30px;
+            width: 100%;
         }
         h1 {
             color: #66fcf1;
             font-size: 2.5em;
         }
-        /* Styling for the Mermaid container */
-        .mermaid-container {
+        .main-image {
+            max-width: 100%; /* Ensure image scales down on smaller screens */
+            height: auto;
+            margin-bottom: 40px;
+            border-radius: 10px; /* Optional: subtle rounded corners */
+            box-shadow: 0 0 30px rgba(102, 252, 241, 0.4); /* Glowing effect */
+            display: block; /* Remove extra space below image */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        /* Textual description styling */
+        .architecture-description {
+            margin-top: 40px;
+            text-align: left; /* Align text content to the left */
+            width: 100%; /* Take full width of parent container */
+            max-width: 800px; /* Optional: Limit width of text for readability */
+        }
+        .layer-box {
             background-color: #1f2833;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(102, 252, 241, 0.3);
-            overflow-x: auto; /* Allows horizontal scrolling/zooming on mobile */
+            border-left: 5px solid #45a29e;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .layer-box h2 {
+            color: #66fcf1;
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+        .subsystem-list {
+            list-style: none;
+            padding: 0;
+        }
+        .subsystem-list li {
+            margin-bottom: 8px;
+            border-bottom: 1px dashed #45a29e;
+            padding-bottom: 5px;
+        }
+        .subsystem-list strong {
+            color: #c5c6c7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>🌌 Shooting Star AI Ecosystem Architecture</h1>
+        <p>A Hierarchical Mind Map of the AI Subsystems</p>
+    </header>
+
+    <img src="ai_ecosystem.png" alt="Shooting Star AI Ecosystem Architecture Diagram" class="main-image">
+    
+    <div class="architecture-description">
+        <h2>Detailed Subsystem Breakdown</h2>
+
+        <div class="layer-box">
+            <h2>1. Core Intelligence Layer (The Brain)</h2>
+            <ul class="subsystem-list">
+                <li>**ai_controller.py** — Central command hub; routes logic between all subsystems.</li>
+                <li>**ai_business_router.py** — Routes brand and business-specific logic through different AI engines.</li>
+                <li>**autonomous_ai_director.py** — Oversees system execution, goal alignment, and feedback loops.</li>
+                <li>**conversation_context_manager.py** — Tracks user and brand interactions in real time for contextual intelligence.</li>
+                <li>**mission_director.py** — High-level orchestration of brand missions, daily tasks, and innovation goals.</li>
+            </ul>
+        </div>
+
+        <div class="layer-box">
+            <h2>2. Cognitive Expansion Layer (The Thinkers)</h2>
+            <ul class="subsystem-list">
+                <li>**growth_engine.py & growth_engine_extended.py** — Manage business growth strategy modeling and predict ROI.</li>
+                <li>**advanced_analytics_engine.py** — Data analytics, performance forecasting, and trend recognition.</li>
+                <li>**causal_inference_engine.py** — Finds cause-effect relationships for smarter decision making.</li>
+                <li>**explainable_ai_module.py** — Keeps AI reasoning transparent for debugging and brand safety.</li>
+                <li>**sentiment_analyzer.py** — Reads emotional tone of audiences to fine-tune marketing content.</li>
+                <li>**influencer_intelligence_engine.py** — Detects, ranks, and engages with digital influencers.</li>
+                <li>**recommendation_core.py** — Personalizes offers, content, and partnerships based on AI profiling.</li>
+            </ul>
+        </div>
+
+        <div class="layer-box">
+            <h2>3. Execution Layer (The Hands)</h2>
+            <ul class="subsystem-list">
+                <li>**unstoppable_execution.py** — Automated execution of strategies across all channels.</li>
+                <li>**system_optimizer.py** — Monitors performance metrics and self-tunes code efficiency.</li>
+                <li>**daily_execution_engine.py** — Handles daily task automation for every brand.</li>
+                <li>**daily_optimization_engine.py** — Real-time improvement of marketing operations.</li>
+                <li>**tip_generator.py** — Creates daily brand growth tips or task suggestions via AI.</li>
+            </ul>
+        </div>
+        
+        <div class="layer-box">
+            <h2>4. Innovation Layer (The Architects)</h2>
+            <ul class="subsystem-list">
+                <li>**autonomous_innovation_engine.py** — Constantly generates new product, marketing, and system ideas.</li>
+                <li>**innovation_task_manager.py** — Assigns innovation tasks across AI agents.</li>
+                <li>**exponential_evolution_engine.py** — Evolves the system architecture and intelligence dynamically.</li>
+                <li>**real_time_adaptation.py** — Makes adaptive changes in real time (A/B testing, market pivots).</li>
+            </ul>
+        </div>
+        
+        <div class="layer-box">
+            <h2>5. Social Intelligence Layer (The Public Face)</h2>
+            <h3>Social Manager Subsystem:</h3>
+            <ul class="subsystem-list">
+                <li>**social_manager_core.py** — Central social AI manager.</li>
+                <li>**social_media_service.py** — Posts, schedules, and interacts with audiences.</li>
+                <li>**content_planner.py** — Generates daily/weekly content calendars.</li>
+                <li>**auto_post_service.py** — Handles automated posting.</li>
+                <li>**comment_mod_and_reply.py** — Engages with audience comments automatically.</li>
+                <li>**engagement_orchestrator.py** — Optimizes timing and targeting for viral engagement.</li>
+                <li>**paid_amplification_service.py** — Manages ad budgets, scaling, and ROI.</li>
+                <li>**crisis_playbook.py** — Handles brand damage control and reputation repair.</li>
+                <li>**analytics_feedback_loop.py** — Feeds real-world social data back into the system for growth.</li>
+                <li>**safety_and_compliance.py** — Ensures every post meets brand/legal guidelines.</li>
+            </ul>
+        </div>
+        
+        <div class="layer-box">
+            <h2>6. CEO & Strategic Layer (The King)</h2>
+            <ul class="subsystem-list">
+                <li>**ai_ceo_dominion.py** — Master entity; thinks like a CEO, plans like an empire.</li>
+                <li>**ceo_integration_layer.py** — Connects human decision-makers to the AI ecosystem.</li>
+                <li>**strategic_ai_modules.py** — Handles global business positioning, market entry, and expansion.</li>
+                <li>**pridictive_budget_optimizer.py** — Predicts financial outcomes of different strategies.</li>
+                <li>**transfer_learning_manager.py** — Reuses intelligence from past campaigns or brands.</li>
+                <li>**voice_command_integration.py** — Enables voice control and natural interaction with the AI system.</li>
+            </ul>
+        </div>
+
+        <div class="layer-box">
+            <h2>7. Insight & Data Infrastructure (The Memory)</h2>
+            <ul class="subsystem-list">
+                <li>**insight_queue.py** — Stores insights, patterns, and discoveries from each AI subsystem.</li>
+                <li>**model_manager.py** — Manages, retrains, and updates AI models.</li>
+                <li>**multi_modal_fusion_engine.py** — Combines data from multiple sources (social, sales, web, etc.).</li>
+                <li>**system_optimizer.py** — Performs holistic performance tuning and scaling.</li>
+                <li>**recommendation_core.py** — Synthesizes knowledge into smart recommendations.</li>
+            </ul>
+        </div>
+
+        <div class="layer-box">
+            <h2>8. Interface Layer (The Bridge)</h2>
+            <ul class="subsystem-list">
+                <li>**ai_personal_assistant_core.py** — Acts as the “voice” and front-end AI interface.</li>
+                <li>**ai_receptionist/** — Manages inbound communication and scheduling.</li>
+                <li>**voice_command_integration.py** — Natural language interface for control and feedback.</li>
+                <li>Connects the entire system to apps, web dashboards, and mobile devices.</li>
+            </ul>
+        </div>
+
+        <div class="layer-box">
+            <h2>🧠 How It All Works Together:</h2>
+            <ul class="subsystem-list">
+                <li>The **Brain** (Core Intelligence) sends signals to **Hands** (Execution Layer).</li>
+                <li>The **Thinkers** (Cognitive) constantly optimize and plan future strategies.</li>
+                <li>The **Architects** (Innovation) ensure the system keeps inventing new paths.</li>
+                <li>The **King** (Strategic) makes global-level moves — budgets, markets, dominance.</li>
+                <li>The **Public Face** (Social Intelligence) interacts with the world.</li>
+                <li>The **Memory** (Insight) learns from all actions.</li>
+                <li>The **Bridge** (Interface) allows human-AI symbiosis.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
         }
         /* Mermaid-specific styling to fit the dark theme */
         .mermaid svg {
