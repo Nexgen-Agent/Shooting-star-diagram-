@@ -1,458 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌌 Shooting Star AI Ecosystem — Architecture</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0b0c10; /* Dark background matching the image */
-            color: #c5c6c7;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Center content horizontally */
-        }
-        .container {
-            max-width: 1000px; /* Adjust max-width as needed */
-            width: 100%;
-            margin: auto;
-            text-align: center; /* Center text within the container */
-        }
-        header {
-            padding-bottom: 20px;
-            border-bottom: 2px solid #66fcf1;
-            margin-bottom: 30px;
-            width: 100%;
-        }
-        h1 {
-            color: #66fcf1;
-            font-size: 2.5em;
-        }
-        .main-image {
-            max-width: 100%; /* Ensure image scales down on smaller screens */
-            height: auto;
-            margin-bottom: 40px;
-            border-radius: 10px; /* Optional: subtle rounded corners */
-            box-shadow: 0 0 30px rgba(102, 252, 241, 0.4); /* Glowing effect */
-            display: block; /* Remove extra space below image */
-            margin-left: auto;
-            margin-right: auto;
-        }
-        /* Textual description styling */
-        .architecture-description {
-            margin-top: 40px;
-            text-align: left; /* Align text content to the left */
-            width: 100%; /* Take full width of parent container */
-            max-width: 800px; /* Optional: Limit width of text for readability */
-        }
-        .layer-box {
-            background-color: #1f2833;
-            border-left: 5px solid #45a29e;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-        .layer-box h2 {
-            color: #66fcf1;
-            margin-top: 0;
-            font-size: 1.5em;
-        }
-        .subsystem-list {
-            list-style: none;
-            padding: 0;
-        }
-        .subsystem-list li {
-            margin-bottom: 8px;
-            border-bottom: 1px dashed #45a29e;
-            padding-bottom: 5px;
-        }
-        .subsystem-list strong {
-            color: #c5c6c7;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shooting Star — AI Ecosystem Mind Map</title>
+  <style>
+    :root{--bg:#03031a;--accent:#7cf0ff;--glow:#69f0ae;--muted:#cbd5e1;--card:rgba(255,255,255,0.03)}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+    body{background:radial-gradient(ellipse at 20% 10%, rgba(124,240,255,0.06), transparent 5%),
+      radial-gradient(ellipse at 80% 90%, rgba(105,240,174,0.03), transparent 10%),
+      linear-gradient(180deg,#020218 0%, #05051a 100%);color:var(--muted);overflow:auto}
+    .wrap{max-width:1200px;margin:28px auto;padding:28px}
+    .hero{display:flex;gap:24px;align-items:flex-start}
+    .canvas{flex:1;min-height:640px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:18px;padding:28px;position:relative;box-shadow:0 6px 40px rgba(0,0,0,0.6)}
+    /* center hex */
+    .center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:220px;height:220px;display:flex;align-items:center;justify-content:center;border-radius:20px;background:linear-gradient(135deg,#0f1724,#071026);box-shadow:0 0 40px rgba(124,240,255,0.08), inset 0 1px 0 rgba(255,255,255,0.02);border:1px solid rgba(124,240,255,0.06)}
+    .center h1{font-size:18px;color:white;margin:0;text-align:center;line-height:1.15}
+    .node{position:absolute;transform:translate(-50%,-50%);width:260px}
+    .node .card{background:var(--card);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .node .title{color:white;font-weight:700;margin-bottom:6px}
+    .node .desc{font-size:13px;color:var(--muted);line-height:1.3}
+    /* radial positions */
+    .n-1{left:50%;top:8%}
+    .n-2{left:84%;top:22%}
+    .n-3{left:92%;top:54%}
+    .n-4{left:72%;top:84%}
+    .n-5{left:50%;top:92%}
+    .n-6{left:28%;top:84%}
+    .n-7{left:8%;top:54%}
+    .n-8{left:16%;top:22%}
+    /* connectors */
+    .connector{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+    /* sidebar */
+    .sidebar{width:340px;flex:0 0 340px;padding:18px}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .panel h2{margin:0 0 12px 0;color:white}
+    .layer-list{display:grid;gap:10px}
+    .layer{padding:10px;border-radius:10px;background:rgba(255,255,255,0.01);display:flex;gap:10px;align-items:center}
+    .dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px}
+    .dot.c1{background:#7cf0ff}
+    .dot.c2{background:#ffe48f}
+    .dot.c3{background:#ff9bb3}
+    .controls{display:flex;gap:8px;margin-top:12px}
+    button{background:#0b1220;color:var(--muted);border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:8px;cursor:pointer}
+    button.primary{background:linear-gradient(90deg,#5ae1ff,#86ffb2);color:#042}
+    /* tooltip */
+    .card:hover{transform:translateY(-6px);transition:all .24s ease}
+    footer{margin-top:18px;color:#7b8aa1;font-size:13px;text-align:center}
+    @media (max-width:980px){.hero{flex-direction:column}.sidebar{width:100%;order:2}.canvas{order:1;width:100%}}
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div>
+        <h3 style="margin:0;color:white">Shooting Star — AI Ecosystem</h3>
+        <div style="color:var(--muted);font-size:13px">Hierarchical mind map — interactive single-file website</div>
+      </div>
+      <div>
+        <button class="primary" onclick="downloadHTML()">Download HTML</button>
+        <button onclick="focusCenter()">Focus Center</button>
+      </div>
+    </div><div class="hero">
+  <div class="canvas" id="canvas">
+    <svg class="connector" id="svg"></svg>
 
-<div class="container">
-    <header>
-        <h1>🌌 Shooting Star AI Ecosystem Architecture</h1>
-        <p>A Hierarchical Mind Map of the AI Subsystems</p>
-    </header>
-
-    <img src="ai_ecosystem.png" alt="Shooting Star AI Ecosystem Architecture Diagram" class="main-image">
-    
-    <div class="architecture-description">
-        <h2>Detailed Subsystem Breakdown</h2>
-
-        <div class="layer-box">
-            <h2>1. Core Intelligence Layer (The Brain)</h2>
-            <ul class="subsystem-list">
-                <li>**ai_controller.py** — Central command hub; routes logic between all subsystems.</li>
-                <li>**ai_business_router.py** — Routes brand and business-specific logic through different AI engines.</li>
-                <li>**autonomous_ai_director.py** — Oversees system execution, goal alignment, and feedback loops.</li>
-                <li>**conversation_context_manager.py** — Tracks user and brand interactions in real time for contextual intelligence.</li>
-                <li>**mission_director.py** — High-level orchestration of brand missions, daily tasks, and innovation goals.</li>
-            </ul>
-        </div>
-
-        <div class="layer-box">
-            <h2>2. Cognitive Expansion Layer (The Thinkers)</h2>
-            <ul class="subsystem-list">
-                <li>**growth_engine.py & growth_engine_extended.py** — Manage business growth strategy modeling and predict ROI.</li>
-                <li>**advanced_analytics_engine.py** — Data analytics, performance forecasting, and trend recognition.</li>
-                <li>**causal_inference_engine.py** — Finds cause-effect relationships for smarter decision making.</li>
-                <li>**explainable_ai_module.py** — Keeps AI reasoning transparent for debugging and brand safety.</li>
-                <li>**sentiment_analyzer.py** — Reads emotional tone of audiences to fine-tune marketing content.</li>
-                <li>**influencer_intelligence_engine.py** — Detects, ranks, and engages with digital influencers.</li>
-                <li>**recommendation_core.py** — Personalizes offers, content, and partnerships based on AI profiling.</li>
-            </ul>
-        </div>
-
-        <div class="layer-box">
-            <h2>3. Execution Layer (The Hands)</h2>
-            <ul class="subsystem-list">
-                <li>**unstoppable_execution.py** — Automated execution of strategies across all channels.</li>
-                <li>**system_optimizer.py** — Monitors performance metrics and self-tunes code efficiency.</li>
-                <li>**daily_execution_engine.py** — Handles daily task automation for every brand.</li>
-                <li>**daily_optimization_engine.py** — Real-time improvement of marketing operations.</li>
-                <li>**tip_generator.py** — Creates daily brand growth tips or task suggestions via AI.</li>
-            </ul>
-        </div>
-        
-        <div class="layer-box">
-            <h2>4. Innovation Layer (The Architects)</h2>
-            <ul class="subsystem-list">
-                <li>**autonomous_innovation_engine.py** — Constantly generates new product, marketing, and system ideas.</li>
-                <li>**innovation_task_manager.py** — Assigns innovation tasks across AI agents.</li>
-                <li>**exponential_evolution_engine.py** — Evolves the system architecture and intelligence dynamically.</li>
-                <li>**real_time_adaptation.py** — Makes adaptive changes in real time (A/B testing, market pivots).</li>
-            </ul>
-        </div>
-        
-        <div class="layer-box">
-            <h2>5. Social Intelligence Layer (The Public Face)</h2>
-            <h3>Social Manager Subsystem:</h3>
-            <ul class="subsystem-list">
-                <li>**social_manager_core.py** — Central social AI manager.</li>
-                <li>**social_media_service.py** — Posts, schedules, and interacts with audiences.</li>
-                <li>**content_planner.py** — Generates daily/weekly content calendars.</li>
-                <li>**auto_post_service.py** — Handles automated posting.</li>
-                <li>**comment_mod_and_reply.py** — Engages with audience comments automatically.</li>
-                <li>**engagement_orchestrator.py** — Optimizes timing and targeting for viral engagement.</li>
-                <li>**paid_amplification_service.py** — Manages ad budgets, scaling, and ROI.</li>
-                <li>**crisis_playbook.py** — Handles brand damage control and reputation repair.</li>
-                <li>**analytics_feedback_loop.py** — Feeds real-world social data back into the system for growth.</li>
-                <li>**safety_and_compliance.py** — Ensures every post meets brand/legal guidelines.</li>
-            </ul>
-        </div>
-        
-        <div class="layer-box">
-            <h2>6. CEO & Strategic Layer (The King)</h2>
-            <ul class="subsystem-list">
-                <li>**ai_ceo_dominion.py** — Master entity; thinks like a CEO, plans like an empire.</li>
-                <li>**ceo_integration_layer.py** — Connects human decision-makers to the AI ecosystem.</li>
-                <li>**strategic_ai_modules.py** — Handles global business positioning, market entry, and expansion.</li>
-                <li>**pridictive_budget_optimizer.py** — Predicts financial outcomes of different strategies.</li>
-                <li>**transfer_learning_manager.py** — Reuses intelligence from past campaigns or brands.</li>
-                <li>**voice_command_integration.py** — Enables voice control and natural interaction with the AI system.</li>
-            </ul>
-        </div>
-
-        <div class="layer-box">
-            <h2>7. Insight & Data Infrastructure (The Memory)</h2>
-            <ul class="subsystem-list">
-                <li>**insight_queue.py** — Stores insights, patterns, and discoveries from each AI subsystem.</li>
-                <li>**model_manager.py** — Manages, retrains, and updates AI models.</li>
-                <li>**multi_modal_fusion_engine.py** — Combines data from multiple sources (social, sales, web, etc.).</li>
-                <li>**system_optimizer.py** — Performs holistic performance tuning and scaling.</li>
-                <li>**recommendation_core.py** — Synthesizes knowledge into smart recommendations.</li>
-            </ul>
-        </div>
-
-        <div class="layer-box">
-            <h2>8. Interface Layer (The Bridge)</h2>
-            <ul class="subsystem-list">
-                <li>**ai_personal_assistant_core.py** — Acts as the “voice” and front-end AI interface.</li>
-                <li>**ai_receptionist/** — Manages inbound communication and scheduling.</li>
-                <li>**voice_command_integration.py** — Natural language interface for control and feedback.</li>
-                <li>Connects the entire system to apps, web dashboards, and mobile devices.</li>
-            </ul>
-        </div>
-
-        <div class="layer-box">
-            <h2>🧠 How It All Works Together:</h2>
-            <ul class="subsystem-list">
-                <li>The **Brain** (Core Intelligence) sends signals to **Hands** (Execution Layer).</li>
-                <li>The **Thinkers** (Cognitive) constantly optimize and plan future strategies.</li>
-                <li>The **Architects** (Innovation) ensure the system keeps inventing new paths.</li>
-                <li>The **King** (Strategic) makes global-level moves — budgets, markets, dominance.</li>
-                <li>The **Public Face** (Social Intelligence) interacts with the world.</li>
-                <li>The **Memory** (Insight) learns from all actions.</li>
-                <li>The **Bridge** (Interface) allows human-AI symbiosis.</li>
-            </ul>
-        </div>
+    <div class="center" id="center">
+      <div>
+        <h1>Shooting Star<br>AI Ecosystem</h1>
+      </div>
     </div>
+
+    <!-- nodes (positions approximate to match visualization) -->
+    <div class="node n-1" data-key="core"><div class="card"><div class="title">Core Intelligence Layer</div><div class="desc">ai_controller, conversation_context_manager, mission_director — central routing, orchestration, and memory.</div></div></div>
+
+    <div class="node n-2" data-key="cognitive"><div class="card"><div class="title">Cognitive Expansion</div><div class="desc">analytics, growth engines, causal inference, explainable AI — strategy & forecasting.</div></div></div>
+
+    <div class="node n-3" data-key="execution"><div class="card"><div class="title">Execution Layer</div><div class="desc">unstoppable_execution, daily engines, optimizers — automated hands-on execution.</div></div></div>
+
+    <div class="node n-4" data-key="innovation"><div class="card"><div class="title">Innovation Layer</div><div class="desc">autonomous_innovation_engine, task manager, CI runner — prototypes & safe gating.</div></div></div>
+
+    <div class="node n-5" data-key="social"><div class="card"><div class="title">Social Intelligence</div><div class="desc">social_manager, content planner, crisis playbook — public face & feedback loops.</div></div></div>
+
+    <div class="node n-6" data-key="ceo"><div class="card"><div class="title">CEO & Strategic</div><div class="desc">Dominion AI CEO, budgets, strategic planning, founder gates.</div></div></div>
+
+    <div class="node n-7" data-key="insight"><div class="card"><div class="title">Insight & Memory</div><div class="desc">model manager, insight queue, multimodal fusion — the system memory & models.</div></div></div>
+
+    <div class="node n-8" data-key="interface"><div class="card"><div class="title">Interface Layer</div><div class="desc">assistant core, receptionist, voice control — human bridge to the system.</div></div></div>
+
+  </div>
+
+  <aside class="sidebar">
+    <div class="panel">
+      <h2>Layers</h2>
+      <div class="layer-list">
+        <div class="layer"><div class="dot c1"></div><div><strong>Core</strong><div style="font-size:12px;color:var(--muted)">Routing & orchestration</div></div></div>
+        <div class="layer"><div class="dot c2"></div><div><strong>Cognitive</strong><div style="font-size:12px;color:var(--muted)">Forecasting & decisions</div></div></div>
+        <div class="layer"><div class="dot c3"></div><div><strong>Execution</strong><div style="font-size:12px;color:var(--muted)">Automated actions</div></div></div>
+        <div class="layer"><div class="dot c1"></div><div><strong>Innovation</strong><div style="font-size:12px;color:var(--muted)">Prototyping & CI</div></div></div>
+        <div class="layer"><div class="dot c2"></div><div><strong>Social</strong><div style="font-size:12px;color:var(--muted)">Public interactions</div></div></div>
+        <div class="layer"><div class="dot c3"></div><div><strong>CEO</strong><div style="font-size:12px;color:var(--muted)">Strategy & governance</div></div></div>
+        <div class="layer"><div class="dot c1"></div><div><strong>Insight</strong><div style="font-size:12px;color:var(--muted)">Data & models</div></div></div>
+        <div class="layer"><div class="dot c2"></div><div><strong>Interface</strong><div style="font-size:12px;color:var(--muted)">Human access points</div></div></div>
+      </div>
+
+      <div class="controls">
+        <button onclick="toggleLines()">Toggle Lines</button>
+        <button onclick="zoomOut()">Zoom Out</button>
+        <button onclick="resetZoom()">Reset Zoom</button>
+      </div>
+
+      <div style="margin-top:14px;font-size:13px;color:var(--muted)">
+        Click any card to expand full details. Use the download button to save this single-file site and open on any device with a browser.
+      </div>
+    </div>
+  </aside>
 </div>
 
-</body>
-</html>
-        }
-        /* Mermaid-specific styling to fit the dark theme */
-        .mermaid svg {
-            background-color: #1f2833 !important;
-        }
-        /* Textual description styling */
-        .architecture-description {
-            margin-top: 40px;
-        }
-        .layer-box {
-            background-color: #1f2833;
-            border-left: 5px solid #45a29e;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-        .layer-box h2 {
-            color: #66fcf1;
-            margin-top: 0;
-            font-size: 1.5em;
-        }
-        .subsystem-list {
-            list-style: none;
-            padding: 0;
-        }
-        .subsystem-list li {
-            margin-bottom: 8px;
-            border-bottom: 1px dashed #45a29e;
-            padding-bottom: 5px;
-        }
-        .subsystem-list strong {
-            color: #c5c6c7;
-        }
-    </style>
-</head>
-<body>
+<footer>Made for Nexgen — target valuation: $7T in 20 years · Interactive mind map export</footer>
 
-<div class="container">
-    <header>
-        <h1>🌌 Shooting Star AI Ecosystem Architecture</h1>
-        <p>A Hierarchical Mind Map of the AI Subsystems</p>
-    </header>
+  </div>  <script>
+    // Basic SVG connector drawing between center and nodes
+    const svg = document.getElementById('svg');
+    const center = document.getElementById('center');
+    const nodes = Array.from(document.querySelectorAll('.node'));
+    let showLines = true;
 
-    <div class="mermaid-container">
-        <div class="mermaid" id="ai-ecosystem-diagram">
-            graph TD
-                A[🌌 Shooting Star AI Ecosystem]
-                
-                %% Main Layers - Connecting to the Core
-                A --> B(1. Core Intelligence Layer - The Brain)
-                A --> C(2. Cognitive Expansion Layer - The Thinkers)
-                A --> D(3. Execution Layer - The Hands)
-                A --> E(4. Innovation Layer - The Architects)
-                A --> F(5. Social Intelligence Layer - The Public Face)
-                A --> G(6. CEO & Strategic Layer - The King)
-                A --> H(7. Insight & Data Infrastructure - The Memory)
-                A --> I(8. Interface Layer - The Bridge)
+    function point(el){
+      const r = el.getBoundingClientRect();
+      const c = document.getElementById('canvas').getBoundingClientRect();
+      return {x: r.left + r.width/2 - c.left, y: r.top + r.height/2 - c.top};
+    }
 
-                %% Sub-components for each layer (Simplified view)
-                
-                %% Core Intelligence (Brain)
-                B --> B1(ai_controller.py)
-                B --> B2(ai_business_router.py)
-                B --> B3(autonomous_ai_director.py)
-                
-                %% Cognitive Expansion (Thinkers)
-                C --> C1(growth_engine.py)
-                C --> C2(advanced_analytics_engine.py)
-                C --> C3(causal_inference_engine.py)
-                
-                %% Execution (Hands)
-                D --> D1(unstoppable_execution.py)
-                D --> D2(system_optimizer.py)
-                D --> D3(daily_execution_engine.py)
-                
-                %% Innovation (Architects)
-                E --> E1(autonomous_innovation_engine.py)
-                E --> E2(innovation_task_manager.py)
-                E --> E3(exponential_evolution_engine.py)
+    function drawLines(){
+      svg.innerHTML = '';
+      if(!showLines) return;
+      const p0 = point(center);
+      nodes.forEach(n=>{
+        const p = point(n);
+        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        const dx = (p.x + p0.x)/2;
+        const dy = (p.y + p0.y)/2;
+        const d = `M ${p0.x} ${p0.y} Q ${dx} ${dy} ${p.x} ${p.y}`;
+        path.setAttribute('d',d);
+        path.setAttribute('stroke','rgba(124,240,255,0.12)');
+        path.setAttribute('stroke-width','2');
+        path.setAttribute('fill','none');
+        svg.appendChild(path);
+      })
+    }
 
-                %% Social Intelligence (Public Face)
-                F --> F1(social_manager_core.py)
-                F --> F2(content_planner.py)
-                F --> F3(crisis_playbook.py)
-                
-                %% CEO & Strategic (King)
-                G --> G1(ai_ceo_dominion.py)
-                G --> G2(ceo_integration_layer.py)
-                G --> G3(pridictive_budget_optimizer.py)
+    function onResize(){
+      svg.setAttribute('width',document.getElementById('canvas').clientWidth);
+      svg.setAttribute('height',document.getElementById('canvas').clientHeight);
+      drawLines();
+    }
 
-                %% Insight & Data (Memory)
-                H --> H1(insight_queue.py)
-                H --> H2(model_manager.py)
-                H --> H3(multi_modal_fusion_engine.py)
-                
-                %% Interface (Bridge)
-                I --> I1(ai_personal_assistant_core.py)
-                I --> I2(ai_receptionist/)
-                I --> I3(voice_command_integration.py)
+    window.addEventListener('resize', onResize);
+    window.addEventListener('load', ()=>{onResize(); addInteractions()});
 
-                %% Flow of Interaction (Simplified)
-                B --> D
-                C --> B
-                E --> C
-                F --> H
-                G --> A
-                H --> A
-                I --> A
-                
-                %% Styling for clarity
-                classDef core fill:#5fa8d3,stroke:#333;
-                class B core;
-                classDef cog fill:#90e0ef,stroke:#333;
-                class C cog;
-                classDef exec fill:#48cae4,stroke:#333;
-                class D exec;
-                classDef inn fill:#00b4d8,stroke:#333;
-                class E inn;
-                classDef soc fill:#0096c7,stroke:#333;
-                class F soc;
-                classDef strat fill:#0077b6,stroke:#333;
-                class G strat;
-                classDef data fill:#03045e,stroke:#333;
-                class H data;
-                classDef intf fill:#023e8a,stroke:#333;
-                class I intf;
+    function toggleLines(){ showLines = !showLines; drawLines(); }
+    function zoomOut(){ document.getElementById('canvas').style.transform = 'scale(0.92)'; }
+    function resetZoom(){ document.getElementById('canvas').style.transform = 'none'; }
 
-        </div>
-    </div>
-    
-    <div class="architecture-description">
-        <h2>Detailed Subsystem Breakdown</h2>
+    function focusCenter(){ window.scrollTo({top: document.getElementById('canvas').offsetTop - 40, behavior:'smooth'}); }
 
-        <div class="layer-box">
-            <h2>1. Core Intelligence Layer (The Brain)</h2>
-            <ul class="subsystem-list">
-                <li>**ai_controller.py** — Central command hub; routes logic between all subsystems.</li>
-                <li>**ai_business_router.py** — Routes brand and business-specific logic through different AI engines.</li>
-                <li>**autonomous_ai_director.py** — Oversees system execution, goal alignment, and feedback loops.</li>
-                <li>**conversation_context_manager.py** — Tracks user and brand interactions in real time for contextual intelligence.</li>
-                <li>**mission_director.py** — High-level orchestration of brand missions, daily tasks, and innovation goals.</li>
-            </ul>
-        </div>
+    function addInteractions(){
+      nodes.forEach(n=>{
+        n.addEventListener('click',async ()=>{
+          const key = n.dataset.key;
+          await showDetail(key,n);
+        })
+      })
+    }
 
-        <div class="layer-box">
-            <h2>2. Cognitive Expansion Layer (The Thinkers)</h2>
-            <ul class="subsystem-list">
-                <li>**growth_engine.py & growth_engine_extended.py** — Manage business growth strategy modeling and predict ROI.</li>
-                <li>**advanced_analytics_engine.py** — Data analytics, performance forecasting, and trend recognition.</li>
-                <li>**causal_inference_engine.py** — Finds cause-effect relationships for smarter decision making.</li>
-                <li>**explainable_ai_module.py** — Keeps AI reasoning transparent for debugging and brand safety.</li>
-                <li>**sentiment_analyzer.py** — Reads emotional tone of audiences to fine-tune marketing content.</li>
-                <li>**influencer_intelligence_engine.py** — Detects, ranks, and engages with digital influencers.</li>
-                <li>**recommendation_core.py** — Personalizes offers, content, and partnerships based on AI profiling.</li>
-            </ul>
-        </div>
+    async function showDetail(key,node){
+      // simple modal using alert fallback to keep single-file
+      const mapping = {
+        core: `Core Intelligence Layer\n\nFiles: ai_controller.py, ai_business_router.py, autonomous_ai_director.py, conversation_context_manager.py\n\nRole: Central routing, orchestration, memory, multi-module coordination.`,
+        cognitive: `Cognitive Expansion\n\nFiles: growth_engine.py, advanced_analytics_engine.py, causal_inference_engine.py, explainable_ai_module.py, sentiment_analyzer.py\n\nRole: forecasting, decision modeling, explainability, influencer intelligence.`,
+        execution: `Execution Layer\n\nFiles: unstoppable_execution.py, daily_execution_engine.py, system_optimizer.py, tip_generator.py\n\nRole: policy enforcement, action automation, daily operations.`,
+        innovation: `Innovation Layer\n\nFiles: autonomous_innovation_engine.py, innovation_task_manager.py, ci_runner, exponential_evolution_engine.py\n\nRole: prototype ideas, recruit talent, CI gating, secure founder approval workflows.`,
+        social: `Social Intelligence\n\nFiles: social_manager_core.py, content_planner.py, auto_post_service.py, engagement_orchestrator.py, crisis_playbook.py\n\nRole: public face, content ops, paid amplification and reputation management.`,
+        ceo: `CEO & Strategic\n\nFiles: ai_ceo_dominion.py, ceo_integration_layer.py, pridictive_budget_optimizer.py\n\nRole: strategic decision-making, three-pillars protocol, founder gating, long-term valuation planning.`,
+        insight: `Insight & Memory\n\nFiles: insight_queue.py, model_manager.py, multi_modal_fusion_engine.py\n\nRole: store knowledge, retrain models, multimodal intelligence.`,
+        interface: `Interface Layer\n\nFiles: ai_personal_assistant_core.py, receptionist, voice_command_integration.py\n\nRole: human interaction points — dashboards, voice, scheduling.`
+      }
+      const text = mapping[key] || 'Details not found';
+      // custom modal
+      const modal = document.createElement('div');
+      modal.style.position='fixed';modal.style.left=0;modal.style.top=0;modal.style.right=0;modal.style.bottom=0;modal.style.background='rgba(1,2,8,0.6)';modal.style.display='flex';modal.style.alignItems='center';modal.style.justifyContent='center';modal.style.zIndex=9999;
+      const box = document.createElement('div');box.style.width='min(720px,92%)';box.style.maxHeight='80%';box.style.overflow='auto';box.style.padding='20px';box.style.borderRadius='12px';box.style.background='#071126';box.style.border='1px solid rgba(255,255,255,0.04)';
+      box.innerHTML = `<h3 style="margin:0 0 10px 0;color:#dff7ff">${node.querySelector('.title').innerText}</h3><pre style='white-space:pre-wrap;color:var(--muted);font-size:13px'>${text}</pre><div style='text-align:right;margin-top:12px'><button id='closeBtn'>Close</button></div>`;modal.appendChild(box);document.body.appendChild(modal);
+  document.getElementById('closeBtn').onclick = ()=>document.body.removeChild(modal);
+}
 
-        <div class="layer-box">
-            <h2>3. Execution Layer (The Hands)</h2>
-            <ul class="subsystem-list">
-                <li>**unstoppable_execution.py** — Automated execution of strategies across all channels.</li>
-                <li>**system_optimizer.py** — Monitors performance metrics and self-tunes code efficiency.</li>
-                <li>**daily_execution_engine.py** — Handles daily task automation for every brand.</li>
-                <li>**daily_optimization_engine.py** — Real-time improvement of marketing operations.</li>
-                <li>**tip_generator.py** — Creates daily brand growth tips or task suggestions via AI.</li>
-            </ul>
-        </div>
-        
-        <div class="layer-box">
-            <h2>4. Innovation Layer (The Architects)</h2>
-            <ul class="subsystem-list">
-                <li>**autonomous_innovation_engine.py** — Constantly generates new product, marketing, and system ideas.</li>
-                <li>**innovation_task_manager.py** — Assigns innovation tasks across AI agents.</li>
-                <li>**exponential_evolution_engine.py** — Evolves the system architecture and intelligence dynamically.</li>
-                <li>**real_time_adaptation.py** — Makes adaptive changes in real time (A/B testing, market pivots).</li>
-            </ul>
-        </div>
-        
-        <div class="layer-box">
-            <h2>5. Social Intelligence Layer (The Public Face)</h2>
-            <h3>Social Manager Subsystem:</h3>
-            <ul class="subsystem-list">
-                <li>**social_manager_core.py** — Central social AI manager.</li>
-                <li>**social_media_service.py** — Posts, schedules, and interacts with audiences.</li>
-                <li>**content_planner.py** — Generates daily/weekly content calendars.</li>
-                <li>**auto_post_service.py** — Handles automated posting.</li>
-                <li>**comment_mod_and_reply.py** — Engages with audience comments automatically.</li>
-                <li>**engagement_orchestrator.py** — Optimizes timing and targeting for viral engagement.</li>
-                <li>**paid_amplification_service.py** — Manages ad budgets, scaling, and ROI.</li>
-                <li>**crisis_playbook.py** — Handles brand damage control and reputation repair.</li>
-                <li>**analytics_feedback_loop.py** — Feeds real-world social data back into the system for growth.</li>
-                <li>**safety_and_compliance.py** — Ensures every post meets brand/legal guidelines.</li>
-            </ul>
-        </div>
-        
-        <div class="layer-box">
-            <h2>6. CEO & Strategic Layer (The King)</h2>
-            <ul class="subsystem-list">
-                <li>**ai_ceo_dominion.py** — Master entity; thinks like a CEO, plans like an empire.</li>
-                <li>**ceo_integration_layer.py** — Connects human decision-makers to the AI ecosystem.</li>
-                <li>**strategic_ai_modules.py** — Handles global business positioning, market entry, and expansion.</li>
-                <li>**pridictive_budget_optimizer.py** — Predicts financial outcomes of different strategies.</li>
-                <li>**transfer_learning_manager.py** — Reuses intelligence from past campaigns or brands.</li>
-                <li>**voice_command_integration.py** — Enables voice control and natural interaction with the AI system.</li>
-            </ul>
-        </div>
+function downloadHTML(){
+  const a = document.createElement('a');
+  const html = `<!doctype html>${document.documentElement.outerHTML}`;
+  const blob = new Blob([html],{type:'text/html'});
+  a.href = URL.createObjectURL(blob);a.download = 'shooting-star-mindmap.html';a.click();
+  URL.revokeObjectURL(a.href);
+}
 
-        <div class="layer-box">
-            <h2>7. Insight & Data Infrastructure (The Memory)</h2>
-            <ul class="subsystem-list">
-                <li>**insight_queue.py** — Stores insights, patterns, and discoveries from each AI subsystem.</li>
-                <li>**model_manager.py** — Manages, retrains, and updates AI models.</li>
-                <li>**multi_modal_fusion_engine.py** — Combines data from multiple sources (social, sales, web, etc.).</li>
-                <li>**system_optimizer.py** — Performs holistic performance tuning and scaling.</li>
-                <li>**recommendation_core.py** — Synthesizes knowledge into smart recommendations.</li>
-            </ul>
-        </div>
-
-        <div class="layer-box">
-            <h2>8. Interface Layer (The Bridge)</h2>
-            <ul class="subsystem-list">
-                <li>**ai_personal_assistant_core.py** — Acts as the “voice” and front-end AI interface.</li>
-                <li>**ai_receptionist/** — Manages inbound communication and scheduling.</li>
-                <li>**voice_command_integration.py** — Natural language interface for control and feedback.</li>
-                <li>Connects the entire system to apps, web dashboards, and mobile devices.</li>
-            </ul>
-        </div>
-
-        <div class="layer-box">
-            <h2>🧠 How It All Works Together:</h2>
-            <ul class="subsystem-list">
-                <li>The **Brain** (Core Intelligence) sends signals to **Hands** (Execution Layer).</li>
-                <li>The **Thinkers** (Cognitive) constantly optimize and plan future strategies.</li>
-                <li>The **Architects** (Innovation) ensure the system keeps inventing new paths.</li>
-                <li>The **King** (Strategic) makes global-level moves — budgets, markets, dominance.</li>
-                <li>The **Public Face** (Social Intelligence) interacts with the world.</li>
-                <li>The **Memory** (Insight) learns from all actions.</li>
-                <li>The **Bridge** (Interface) allows human-AI symbiosis.</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Initialize Mermaid
-    mermaid.initialize({ 
-        startOnLoad: true,
-        theme: 'dark', // Ensures dark theme compatibility
-        flowchart: {
-            use >= 8: true, // Use a more compact layout
-            htmlLabels: true
-        }
-    });
-</script>
-
+  </script>
 </body>
 </html>
