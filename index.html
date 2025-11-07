@@ -1,209 +1,176 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Shooting Star — AI Ecosystem Mind Map</title>
-  <style>
-    :root{--bg:#03031a;--accent:#7cf0ff;--glow:#69f0ae;--muted:#cbd5e1;--card:rgba(255,255,255,0.03)}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    body{background:radial-gradient(ellipse at 20% 10%, rgba(124,240,255,0.06), transparent 5%),
-      radial-gradient(ellipse at 80% 90%, rgba(105,240,174,0.03), transparent 10%),
-      linear-gradient(180deg,#020218 0%, #05051a 100%);color:var(--muted);overflow:auto}
-    .wrap{max-width:1200px;margin:28px auto;padding:28px}
-    .hero{display:flex;gap:24px;align-items:flex-start}
-    .canvas{flex:1;min-height:640px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:18px;padding:28px;position:relative;box-shadow:0 6px 40px rgba(0,0,0,0.6)}
-    /* center hex */
-    .center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:220px;height:220px;display:flex;align-items:center;justify-content:center;border-radius:20px;background:linear-gradient(135deg,#0f1724,#071026);box-shadow:0 0 40px rgba(124,240,255,0.08), inset 0 1px 0 rgba(255,255,255,0.02);border:1px solid rgba(124,240,255,0.06)}
-    .center h1{font-size:18px;color:white;margin:0;text-align:center;line-height:1.15}
-    .node{position:absolute;transform:translate(-50%,-50%);width:260px}
-    .node .card{background:var(--card);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    .node .title{color:white;font-weight:700;margin-bottom:6px}
-    .node .desc{font-size:13px;color:var(--muted);line-height:1.3}
-    /* radial positions */
-    .n-1{left:50%;top:8%}
-    .n-2{left:84%;top:22%}
-    .n-3{left:92%;top:54%}
-    .n-4{left:72%;top:84%}
-    .n-5{left:50%;top:92%}
-    .n-6{left:28%;top:84%}
-    .n-7{left:8%;top:54%}
-    .n-8{left:16%;top:22%}
-    /* connectors */
-    .connector{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
-    /* sidebar */
-    .sidebar{width:340px;flex:0 0 340px;padding:18px}
-    .panel{background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
-    .panel h2{margin:0 0 12px 0;color:white}
-    .layer-list{display:grid;gap:10px}
-    .layer{padding:10px;border-radius:10px;background:rgba(255,255,255,0.01);display:flex;gap:10px;align-items:center}
-    .dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px}
-    .dot.c1{background:#7cf0ff}
-    .dot.c2{background:#ffe48f}
-    .dot.c3{background:#ff9bb3}
-    .controls{display:flex;gap:8px;margin-top:12px}
-    button{background:#0b1220;color:var(--muted);border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:8px;cursor:pointer}
-    button.primary{background:linear-gradient(90deg,#5ae1ff,#86ffb2);color:#042}
-    /* tooltip */
-    .card:hover{transform:translateY(-6px);transition:all .24s ease}
-    footer{margin-top:18px;color:#7b8aa1;font-size:13px;text-align:center}
-    @media (max-width:980px){.hero{flex-direction:column}.sidebar{width:100%;order:2}.canvas{order:1;width:100%}}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>Shooting Star AI Ecosystem</title>
+<style>
+  body {
+    margin: 0;
+    background: radial-gradient(circle at center, #02010a 0%, #030014 80%, #000 100%);
+    overflow: hidden;
+    touch-action: none;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  #mindmap {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    transform-origin: center center;
+    transition: transform 0.2s ease;
+  }
+
+  .node {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    text-align: center;
+    padding: 8px;
+    border-radius: 50%;
+    font-size: 11px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 10px rgba(255,255,255,0.2);
+  }
+
+  .node h3 {
+    font-size: 12px;
+    color: #ffcc70;
+    margin-bottom: 4px;
+  }
+
+  .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #29abe2 0%, #003366 90%);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 25px rgba(0,200,255,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .center h2 {
+    font-size: 14px;
+    color: white;
+  }
+
+  /* Position nodes around center */
+  .core { top: 10%; left: 50%; transform: translate(-50%, 0); }
+  .cognitive { top: 22%; left: 80%; transform: translate(-50%, 0); }
+  .execution { top: 55%; left: 90%; transform: translate(-50%, 0); }
+  .innovation { bottom: 15%; left: 70%; transform: translate(-50%, 0); }
+  .social { bottom: 10%; left: 40%; transform: translate(-50%, 0); }
+  .strategic { bottom: 25%; left: 15%; transform: translate(-50%, 0); }
+  .insight { top: 35%; left: 10%; transform: translate(-50%, 0); }
+  .interface { top: 10%; left: 25%; transform: translate(-50%, 0); }
+
+  /* Glow lines (optional aesthetic) */
+  .line {
+    position: absolute;
+    width: 2px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    transform-origin: top center;
+  }
+
+  @media (max-width: 600px) {
+    .node {
+      width: 120px;
+      height: 120px;
+      font-size: 10px;
+    }
+    .center {
+      width: 150px;
+      height: 150px;
+    }
+  }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-      <div>
-        <h3 style="margin:0;color:white">Shooting Star — AI Ecosystem</h3>
-        <div style="color:var(--muted);font-size:13px">Hierarchical mind map — interactive single-file website</div>
-      </div>
-      <div>
-        <button class="primary" onclick="downloadHTML()">Download HTML</button>
-        <button onclick="focusCenter()">Focus Center</button>
-      </div>
-    </div><div class="hero">
-  <div class="canvas" id="canvas">
-    <svg class="connector" id="svg"></svg>
 
-    <div class="center" id="center">
-      <div>
-        <h1>Shooting Star<br>AI Ecosystem</h1>
-      </div>
-    </div>
-
-    <!-- nodes (positions approximate to match visualization) -->
-    <div class="node n-1" data-key="core"><div class="card"><div class="title">Core Intelligence Layer</div><div class="desc">ai_controller, conversation_context_manager, mission_director — central routing, orchestration, and memory.</div></div></div>
-
-    <div class="node n-2" data-key="cognitive"><div class="card"><div class="title">Cognitive Expansion</div><div class="desc">analytics, growth engines, causal inference, explainable AI — strategy & forecasting.</div></div></div>
-
-    <div class="node n-3" data-key="execution"><div class="card"><div class="title">Execution Layer</div><div class="desc">unstoppable_execution, daily engines, optimizers — automated hands-on execution.</div></div></div>
-
-    <div class="node n-4" data-key="innovation"><div class="card"><div class="title">Innovation Layer</div><div class="desc">autonomous_innovation_engine, task manager, CI runner — prototypes & safe gating.</div></div></div>
-
-    <div class="node n-5" data-key="social"><div class="card"><div class="title">Social Intelligence</div><div class="desc">social_manager, content planner, crisis playbook — public face & feedback loops.</div></div></div>
-
-    <div class="node n-6" data-key="ceo"><div class="card"><div class="title">CEO & Strategic</div><div class="desc">Dominion AI CEO, budgets, strategic planning, founder gates.</div></div></div>
-
-    <div class="node n-7" data-key="insight"><div class="card"><div class="title">Insight & Memory</div><div class="desc">model manager, insight queue, multimodal fusion — the system memory & models.</div></div></div>
-
-    <div class="node n-8" data-key="interface"><div class="card"><div class="title">Interface Layer</div><div class="desc">assistant core, receptionist, voice control — human bridge to the system.</div></div></div>
-
+<div id="mindmap">
+  <div class="center">
+    <h2>Shooting Star<br>AI Ecosystem</h2>
   </div>
 
-  <aside class="sidebar">
-    <div class="panel">
-      <h2>Layers</h2>
-      <div class="layer-list">
-        <div class="layer"><div class="dot c1"></div><div><strong>Core</strong><div style="font-size:12px;color:var(--muted)">Routing & orchestration</div></div></div>
-        <div class="layer"><div class="dot c2"></div><div><strong>Cognitive</strong><div style="font-size:12px;color:var(--muted)">Forecasting & decisions</div></div></div>
-        <div class="layer"><div class="dot c3"></div><div><strong>Execution</strong><div style="font-size:12px;color:var(--muted)">Automated actions</div></div></div>
-        <div class="layer"><div class="dot c1"></div><div><strong>Innovation</strong><div style="font-size:12px;color:var(--muted)">Prototyping & CI</div></div></div>
-        <div class="layer"><div class="dot c2"></div><div><strong>Social</strong><div style="font-size:12px;color:var(--muted)">Public interactions</div></div></div>
-        <div class="layer"><div class="dot c3"></div><div><strong>CEO</strong><div style="font-size:12px;color:var(--muted)">Strategy & governance</div></div></div>
-        <div class="layer"><div class="dot c1"></div><div><strong>Insight</strong><div style="font-size:12px;color:var(--muted)">Data & models</div></div></div>
-        <div class="layer"><div class="dot c2"></div><div><strong>Interface</strong><div style="font-size:12px;color:var(--muted)">Human access points</div></div></div>
-      </div>
+  <div class="node core">
+    <h3>Core Intelligence</h3>
+    <p>Brain of the system — logic routing & mission control.</p>
+  </div>
 
-      <div class="controls">
-        <button onclick="toggleLines()">Toggle Lines</button>
-        <button onclick="zoomOut()">Zoom Out</button>
-        <button onclick="resetZoom()">Reset Zoom</button>
-      </div>
+  <div class="node cognitive">
+    <h3>Cognitive Expansion</h3>
+    <p>Analytics, prediction, causality & emotional intelligence.</p>
+  </div>
 
-      <div style="margin-top:14px;font-size:13px;color:var(--muted)">
-        Click any card to expand full details. Use the download button to save this single-file site and open on any device with a browser.
-      </div>
-    </div>
-  </aside>
+  <div class="node execution">
+    <h3>Execution Layer</h3>
+    <p>Automates and optimizes daily operations and scaling.</p>
+  </div>
+
+  <div class="node innovation">
+    <h3>Innovation Layer</h3>
+    <p>Invents new paths, ideas & evolution engines.</p>
+  </div>
+
+  <div class="node social">
+    <h3>Social Intelligence</h3>
+    <p>Public face — content, engagement, reputation.</p>
+  </div>
+
+  <div class="node strategic">
+    <h3>CEO & Strategy</h3>
+    <p>Empire planning, budgets, market dominance.</p>
+  </div>
+
+  <div class="node insight">
+    <h3>Insight & Memory</h3>
+    <p>Learns, stores, and recalls intelligence patterns.</p>
+  </div>
+
+  <div class="node interface">
+    <h3>Interface Layer</h3>
+    <p>Bridge between humans, apps, and AI systems.</p>
+  </div>
 </div>
 
-<footer>Made for Nexgen — target valuation: $7T in 20 years · Interactive mind map export</footer>
+<script>
+let scale = 1;
+let posX = 0, posY = 0;
+let startX = 0, startY = 0;
+let dragging = false;
 
-  </div>  <script>
-    // Basic SVG connector drawing between center and nodes
-    const svg = document.getElementById('svg');
-    const center = document.getElementById('center');
-    const nodes = Array.from(document.querySelectorAll('.node'));
-    let showLines = true;
+const map = document.getElementById('mindmap');
 
-    function point(el){
-      const r = el.getBoundingClientRect();
-      const c = document.getElementById('canvas').getBoundingClientRect();
-      return {x: r.left + r.width/2 - c.left, y: r.top + r.height/2 - c.top};
-    }
+map.addEventListener('wheel', e => {
+  e.preventDefault();
+  const delta = e.deltaY < 0 ? 0.1 : -0.1;
+  scale = Math.min(Math.max(0.5, scale + delta), 3);
+  map.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+});
 
-    function drawLines(){
-      svg.innerHTML = '';
-      if(!showLines) return;
-      const p0 = point(center);
-      nodes.forEach(n=>{
-        const p = point(n);
-        const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-        const dx = (p.x + p0.x)/2;
-        const dy = (p.y + p0.y)/2;
-        const d = `M ${p0.x} ${p0.y} Q ${dx} ${dy} ${p.x} ${p.y}`;
-        path.setAttribute('d',d);
-        path.setAttribute('stroke','rgba(124,240,255,0.12)');
-        path.setAttribute('stroke-width','2');
-        path.setAttribute('fill','none');
-        svg.appendChild(path);
-      })
-    }
+map.addEventListener('mousedown', e => {
+  dragging = true;
+  startX = e.clientX - posX;
+  startY = e.clientY - posY;
+});
 
-    function onResize(){
-      svg.setAttribute('width',document.getElementById('canvas').clientWidth);
-      svg.setAttribute('height',document.getElementById('canvas').clientHeight);
-      drawLines();
-    }
+window.addEventListener('mouseup', () => dragging = false);
 
-    window.addEventListener('resize', onResize);
-    window.addEventListener('load', ()=>{onResize(); addInteractions()});
+window.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  posX = e.clientX - startX;
+  posY = e.clientY - startY;
+  map.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
+});
+</script>
 
-    function toggleLines(){ showLines = !showLines; drawLines(); }
-    function zoomOut(){ document.getElementById('canvas').style.transform = 'scale(0.92)'; }
-    function resetZoom(){ document.getElementById('canvas').style.transform = 'none'; }
-
-    function focusCenter(){ window.scrollTo({top: document.getElementById('canvas').offsetTop - 40, behavior:'smooth'}); }
-
-    function addInteractions(){
-      nodes.forEach(n=>{
-        n.addEventListener('click',async ()=>{
-          const key = n.dataset.key;
-          await showDetail(key,n);
-        })
-      })
-    }
-
-    async function showDetail(key,node){
-      // simple modal using alert fallback to keep single-file
-      const mapping = {
-        core: `Core Intelligence Layer\n\nFiles: ai_controller.py, ai_business_router.py, autonomous_ai_director.py, conversation_context_manager.py\n\nRole: Central routing, orchestration, memory, multi-module coordination.`,
-        cognitive: `Cognitive Expansion\n\nFiles: growth_engine.py, advanced_analytics_engine.py, causal_inference_engine.py, explainable_ai_module.py, sentiment_analyzer.py\n\nRole: forecasting, decision modeling, explainability, influencer intelligence.`,
-        execution: `Execution Layer\n\nFiles: unstoppable_execution.py, daily_execution_engine.py, system_optimizer.py, tip_generator.py\n\nRole: policy enforcement, action automation, daily operations.`,
-        innovation: `Innovation Layer\n\nFiles: autonomous_innovation_engine.py, innovation_task_manager.py, ci_runner, exponential_evolution_engine.py\n\nRole: prototype ideas, recruit talent, CI gating, secure founder approval workflows.`,
-        social: `Social Intelligence\n\nFiles: social_manager_core.py, content_planner.py, auto_post_service.py, engagement_orchestrator.py, crisis_playbook.py\n\nRole: public face, content ops, paid amplification and reputation management.`,
-        ceo: `CEO & Strategic\n\nFiles: ai_ceo_dominion.py, ceo_integration_layer.py, pridictive_budget_optimizer.py\n\nRole: strategic decision-making, three-pillars protocol, founder gating, long-term valuation planning.`,
-        insight: `Insight & Memory\n\nFiles: insight_queue.py, model_manager.py, multi_modal_fusion_engine.py\n\nRole: store knowledge, retrain models, multimodal intelligence.`,
-        interface: `Interface Layer\n\nFiles: ai_personal_assistant_core.py, receptionist, voice_command_integration.py\n\nRole: human interaction points — dashboards, voice, scheduling.`
-      }
-      const text = mapping[key] || 'Details not found';
-      // custom modal
-      const modal = document.createElement('div');
-      modal.style.position='fixed';modal.style.left=0;modal.style.top=0;modal.style.right=0;modal.style.bottom=0;modal.style.background='rgba(1,2,8,0.6)';modal.style.display='flex';modal.style.alignItems='center';modal.style.justifyContent='center';modal.style.zIndex=9999;
-      const box = document.createElement('div');box.style.width='min(720px,92%)';box.style.maxHeight='80%';box.style.overflow='auto';box.style.padding='20px';box.style.borderRadius='12px';box.style.background='#071126';box.style.border='1px solid rgba(255,255,255,0.04)';
-      box.innerHTML = `<h3 style="margin:0 0 10px 0;color:#dff7ff">${node.querySelector('.title').innerText}</h3><pre style='white-space:pre-wrap;color:var(--muted);font-size:13px'>${text}</pre><div style='text-align:right;margin-top:12px'><button id='closeBtn'>Close</button></div>`;modal.appendChild(box);document.body.appendChild(modal);
-  document.getElementById('closeBtn').onclick = ()=>document.body.removeChild(modal);
-}
-
-function downloadHTML(){
-  const a = document.createElement('a');
-  const html = `<!doctype html>${document.documentElement.outerHTML}`;
-  const blob = new Blob([html],{type:'text/html'});
-  a.href = URL.createObjectURL(blob);a.download = 'shooting-star-mindmap.html';a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-  </script>
 </body>
 </html>
